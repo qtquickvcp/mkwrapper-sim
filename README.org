@@ -1,0 +1,8 @@
+* Simulator configuration for Machinekit mkwrapper
+
+To start this configuration either use run =run.py= or start
+=mklauncher= with this directory as search path.
+
+The default search path for announced user interfaces is
+=~/repos/Cetus=. To add an alternative search path use =./run.py -p
+<search_path>=. Configserver scans the directory recursively.
