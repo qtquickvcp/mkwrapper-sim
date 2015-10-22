@@ -42,6 +42,10 @@ try:
 #   launcher.load_hal_file('anddemo.py')
     launcher.register_exit_handler()  # needs to executed after HAL files
 
+    nc_path = os.path.expanduser('~/nc_files')
+    if not os.path.exists(nc_path):
+        os.mkdir(nc_path)
+
     if not check_mklaucher():  # start mklauncher if not running to make things easier
         launcher.start_process('mklauncher .')
 
