@@ -28,13 +28,6 @@ if args.debug:
 #    launcher.set_machinekit_ini('machinekit.ini')
 
 
-def check_mklaucher():
-    try:
-        subprocess.check_output(['pgrep', 'mklauncher'])
-        return True
-    except subprocess.CalledProcessError:
-        return False
-
 try:
     launcher.check_installation()
     launcher.cleanup_session()
@@ -46,8 +39,7 @@ try:
     if not os.path.exists(nc_path):
         os.mkdir(nc_path)
 
-    if not check_mklaucher():  # start mklauncher if not running to make things easier
-        launcher.start_process('mklauncher .')
+    launcher.ensure_mklauncher()
 
     # the point-of-contact for QtQUickVCP
     launcher.start_process('configserver -n mkwrapper-Demo . ~/repos/Machineface ~/repos/Cetus %s' % args.path)
