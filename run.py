@@ -50,7 +50,7 @@ try:
         launcher.start_process('mklauncher .')
 
     # the point-of-contact for QtQUickVCP
-    launcher.start_process('configserver -n mkwrapper-Demo . ~/repos/Cetus %s' % args.path)
+    launcher.start_process('configserver -n mkwrapper-Demo . ~/repos/Machineface ~/repos/Cetus %s' % args.path)
 
     # start machinekit
     launcher.start_process('machinekit mkwrapper.ini')
