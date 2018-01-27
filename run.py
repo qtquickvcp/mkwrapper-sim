@@ -6,7 +6,6 @@ import subprocess
 import argparse
 import time
 from machinekit import launcher
-from machinekit import rtapi
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
@@ -16,6 +15,7 @@ parser = argparse.ArgumentParser(description='This is the motorctrl demo run scr
 parser.add_argument('-s', '--halscope', help='Starts the halscope', action='store_true')
 parser.add_argument('-m', '--halmeter', help='Starts the halmeter', action='store_true')
 parser.add_argument('-p', '--path', help='Adds an additional UI search path to configserver')
+parser.add_argument('-l', '--lathe', help='Enables the lathe simulator config', action='store_true')
 parser.add_argument('-d', '--debug', help='Enable debug mode', action='store_true')
 
 args = parser.parse_args()
@@ -23,16 +23,9 @@ args = parser.parse_args()
 if args.debug:
     launcher.set_debug_level(5)
 
-#if not args.local:
-#    # override default $MACHINEKIT_INI with a version which was REMOTE=1
-#    launcher.set_machinekit_ini('machinekit.ini')
-
-
 try:
     launcher.check_installation()
     launcher.cleanup_session()
-#    launcher.start_realtime()
-#   launcher.load_hal_file('anddemo.py')
     launcher.register_exit_handler()  # needs to executed after HAL files
 
     nc_path = os.path.expanduser('~/nc_files')
@@ -42,10 +35,13 @@ try:
     launcher.ensure_mklauncher()
 
     # the point-of-contact for QtQUickVCP
-    launcher.start_process('configserver -n mkwrapper-Demo . ~/repos/Machineface ~/repos/Cetus %s' % args.path)
+    launcher.start_process('configserver -n mkwrapper-Demo . ~/projects/Machineface ~/projects/Cetus %s' % args.path)
 
     # start machinekit
-    launcher.start_process('machinekit mkwrapper.ini')
+    if not args.lathe:
+        launcher.start_process('machinekit mkwrapper.ini')
+    else:
+        launcher.start_process('machinekit lathe.ini')
 
     if args.halscope:
         # load scope only now - because all sigs are now defined:
