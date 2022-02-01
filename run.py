@@ -5,7 +5,7 @@ import os
 import subprocess
 import argparse
 import time
-from machinekit import launcher
+from machinetalk_lib import launcher
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
@@ -32,16 +32,16 @@ try:
     if not os.path.exists(nc_path):
         os.mkdir(nc_path)
 
-    launcher.ensure_mklauncher()
+    launcher.ensure_mtlauncher()
 
     # the point-of-contact for QtQUickVCP
-    launcher.start_process('configserver -n mkwrapper-Demo . ~/projects/Machineface ~/projects/Cetus %s' % args.path)
+    launcher.start_process('configserver -n mtwrapper-Demo . ~/projects/Machineface ~/projects/Cetus %s' % args.path)
 
     # start machinekit
     if not args.lathe:
-        launcher.start_process('machinekit mkwrapper.ini')
+        launcher.start_process('linuxcnc mtwrapper.ini')
     else:
-        launcher.start_process('machinekit lathe.ini')
+        launcher.start_process('linuxcnc lathe.ini')
 
     if args.halscope:
         # load scope only now - because all sigs are now defined:
