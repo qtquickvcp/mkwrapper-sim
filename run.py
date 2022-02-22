@@ -36,6 +36,7 @@ try:
 
     # the point-of-contact for QtQUickVCP
     launcher.start_process('configserver -n mtwrapper-Demo . ~/projects/Machineface ~/projects/Cetus %s' % args.path)
+    launcher.start_process('fileserver -d -p ~/nc_files/')
 
     # start machinekit
     if not args.lathe:
